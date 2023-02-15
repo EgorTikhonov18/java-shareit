@@ -13,10 +13,6 @@ import ru.practicum.shareit.item.ItemServiceImpl;
 
 import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
-
 @RestController
 @Slf4j
 @RequestMapping(path = "/items")

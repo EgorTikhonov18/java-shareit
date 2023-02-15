@@ -33,7 +33,6 @@ public class ErrorHandler {
     public Map<String, String> handleIsAlreadyExistsException(IsAlreadyExistsException e) {
         return Map.of("Объект уже существует", e.getMessage());
     }
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public Map<String, String> handleForbiddenException(ForbiddenException e) {

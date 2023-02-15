@@ -1,6 +1,5 @@
 package ru.practicum.shareit.user;
 
-
 import ru.practicum.shareit.user.User;
 
 public class UserValidation {

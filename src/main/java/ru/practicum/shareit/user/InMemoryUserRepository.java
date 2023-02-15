@@ -11,7 +11,6 @@ import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserDtoMapper;
 import ru.practicum.shareit.user.User;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
