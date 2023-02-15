@@ -27,6 +27,7 @@ public class ItemValidation {
     private boolean availableValidation(Item item) {
         return item.getAvailable() != null;
     }
+
     private boolean ownerIdValidation(Long ownerId) {
         return ownerId != null;
     }

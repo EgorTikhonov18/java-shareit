@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user;
 
 import ru.practicum.shareit.user.User;
+
 public class UserValidation {
     public boolean userValidation(User user) {
         return nameValidation(user) && mailValidation(user);
@@ -13,6 +14,7 @@ public class UserValidation {
             return !user.getName().equals("") && !user.getName().equals(" ");
         }
     }
+
     private boolean mailValidation(User user) {
         if (user.getEmail() == null) {
             return false;

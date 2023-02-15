@@ -11,7 +11,9 @@ import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
+
 import java.util.List;
+
 @Slf4j
 @Service
 @Qualifier("UserServiceImpl")
