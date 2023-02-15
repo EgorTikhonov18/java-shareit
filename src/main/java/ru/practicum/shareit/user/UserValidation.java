@@ -15,7 +15,6 @@ public class UserValidation {
             return !user.getName().equals("") && !user.getName().equals(" ");
         }
     }
-
     private boolean mailValidation(User user) {
         if (user.getEmail() == null) {
             return false;

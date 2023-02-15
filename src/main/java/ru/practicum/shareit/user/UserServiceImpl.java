@@ -13,7 +13,6 @@ import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 
 import java.util.List;
-
 @Slf4j
 @Service
 @Qualifier("UserServiceImpl")
