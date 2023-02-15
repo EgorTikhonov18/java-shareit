@@ -1,7 +1,6 @@
 package ru.practicum.shareit.user;
 
 import ru.practicum.shareit.user.User;
-
 public class UserValidation {
     public boolean userValidation(User user) {
         return nameValidation(user) && mailValidation(user);
