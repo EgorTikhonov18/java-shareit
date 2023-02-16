@@ -31,7 +31,7 @@ public class InMemoryItemRepository implements ItemRepository {
         item.setId(nextId++);
         items.put(item.getId(), item);
         log.info(String.format("%s %d %s", "Товар с id =", item.getId(), "добавлен"));
-        return ItemDtoMapper.ItemToItemDto(item);
+        return ItemDtoMapper.ItemToItemDTO(item);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class InMemoryItemRepository implements ItemRepository {
         checkedItem.setOwnerId(ownerId);
         checkedItem.setId(itemId);
         items.put(itemId, checkedItem);
-        return ItemDtoMapper.ItemToItemDto(checkedItem);
+        return ItemDtoMapper.ItemToItemDTO(checkedItem);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class InMemoryItemRepository implements ItemRepository {
         List<ItemDto> itemsOfOwner = new ArrayList<>();
         for (Item item : items.values()) {
             if (item.getOwnerId().equals(ownerId)) {
-                itemsOfOwner.add(ItemDtoMapper.ItemToItemDto(item));
+                itemsOfOwner.add(ItemDtoMapper.ItemToItemDTO(item));
             } else {
                 System.out.println("Владельца нет");
             }
@@ -59,7 +59,7 @@ public class InMemoryItemRepository implements ItemRepository {
     @Override
     public ItemDto getItemById(long itemId) {
         if (items.get(itemId) == null) throw new NotFoundException("Item with this ID doesn't exist.");
-        return ItemDtoMapper.ItemToItemDto(items.get(itemId));
+        return ItemDtoMapper.ItemToItemDTO(items.get(itemId));
     }
 
     @Override
@@ -72,7 +72,7 @@ public class InMemoryItemRepository implements ItemRepository {
                 if ((item.getName().toLowerCase().contains(text.toLowerCase())
                         || item.getDescription().toLowerCase().contains(text.toLowerCase()))
                         && item.getAvailable()) {
-                    itemsForSearch.add(ItemDtoMapper.ItemToItemDto(item));
+                    itemsForSearch.add(ItemDtoMapper.ItemToItemDTO(item));
                 }
             }
         }
