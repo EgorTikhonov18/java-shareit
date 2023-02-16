@@ -24,7 +24,7 @@ public class ItemServiceImpl implements ItemService {
     final ItemValidation itemValidation = new ItemValidation();
 
 
-    public ItemServiceImpl( ItemRepository itemRepository, UserController userController) {
+    public ItemServiceImpl(ItemRepository itemRepository, UserController userController) {
         this.itemRepository = itemRepository;
         this.userController = userController;
     }
