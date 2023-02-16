@@ -24,7 +24,7 @@ public class ItemController {
     final String headerOwnerValue = "X-Sharer-User-Id";
 
 
-    public ItemController( ItemServiceImpl itemServiceImpl) {
+    public ItemController(ItemServiceImpl itemServiceImpl) {
         this.itemServiceImpl = itemServiceImpl;
     }
 

@@ -20,7 +20,6 @@ import java.util.Map;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Component
-//@Qualifier("InMemoryUserRepository")
 public class InMemoryUserRepository implements UserRepository {
     long nextId = 1;
     final Map<Long, User> users = new HashMap<>();

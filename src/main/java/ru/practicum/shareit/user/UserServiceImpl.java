@@ -22,8 +22,7 @@ public class UserServiceImpl implements UserService {
     final UserRepository userRepository;
     final UserValidation userValidation = new UserValidation();
 
-   // @Autowired
-    public UserServiceImpl(/*@Qualifier("InMemoryUserRepository")*/ UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

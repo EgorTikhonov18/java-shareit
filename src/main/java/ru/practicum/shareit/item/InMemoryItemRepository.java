@@ -50,8 +50,7 @@ public class InMemoryItemRepository implements ItemRepository {
         for (Item item : items.values()) {
             if (item.getOwnerId().equals(ownerId)) {
                 itemsOfOwner.add(ItemDtoMapper.ItemToItemDto(item));
-            }
-            else{
+            } else {
                 System.out.println("Владельца нет");
             }
         }
