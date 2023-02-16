@@ -28,7 +28,7 @@ public class InMemoryUserRepository implements UserRepository {
             user.setId(nextId++);
             users.put(user.getId(), user);
             log.info(String.format("%s %d %s", "Пользователь с id =", user.getId(), "добавлен"));
-            return UserDtoMapper.UserToUserDto(user);
+            return UserDtoMapper.userToUserDto(user);
         } else {
             log.info("Уже существует пользователь с таким email");
             throw new IsAlreadyExistsException("Уже существует пользователь с таким email");
@@ -45,14 +45,14 @@ public class InMemoryUserRepository implements UserRepository {
         User checkedUser = checkFieldsForUpdate(user);
         users.put(userId, checkedUser);
         log.info(String.format("%s %d %s", "Пользователь с id =", userId, "обновлен"));
-        return UserDtoMapper.UserToUserDto(checkedUser);
+        return UserDtoMapper.userToUserDto(checkedUser);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         List<UserDto> usersDto = new ArrayList<>();
         for (User user : users.values()) {
-            usersDto.add(UserDtoMapper.UserToUserDto(user));
+            usersDto.add(UserDtoMapper.userToUserDto(user));
         }
         log.info("Список пользователей успешно выведен");
         return usersDto;
@@ -65,7 +65,7 @@ public class InMemoryUserRepository implements UserRepository {
             throw new NotFoundException(String.format("%s %d %s", "Пользователь с id = ", userId, "не найден"));
         } else {
             log.info(String.format("%s %d %s", "Пользователь с id =", userId, "выведен"));
-            return UserDtoMapper.UserToUserDto(users.get(userId));
+            return UserDtoMapper.userToUserDto(users.get(userId));
         }
     }
 
