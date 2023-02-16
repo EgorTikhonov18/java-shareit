@@ -13,4 +13,5 @@ public class ItemDto {
     String name;
     String description;
     Boolean available;
+    Integer owner;
 }

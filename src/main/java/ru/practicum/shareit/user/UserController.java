@@ -22,8 +22,8 @@ public class UserController {
 
     final String pathUserId = "/{userId}";
 
-    @Autowired
-    public UserController(@Qualifier("UserServiceImpl") UserServiceImpl userServiceImpl) {
+    //@Autowired
+    public UserController(/*@Qualifier("UserServiceImpl")*/ UserServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
 

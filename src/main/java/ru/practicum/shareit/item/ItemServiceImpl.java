@@ -18,15 +18,15 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Qualifier("ItemServiceImpl")
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemServiceImpl implements ItemService {
     final ItemRepository itemRepository;
     final UserController userController;
     final ItemValidation itemValidation = new ItemValidation();
 
-    @Autowired
-    public ItemServiceImpl(@Qualifier("InMemoryItemRepository") ItemRepository itemRepository, UserController userController) {
+
+    public ItemServiceImpl( ItemRepository itemRepository, UserController userController) {
         this.itemRepository = itemRepository;
         this.userController = userController;
     }

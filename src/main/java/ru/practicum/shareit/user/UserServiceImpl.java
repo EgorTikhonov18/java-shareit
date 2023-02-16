@@ -16,14 +16,14 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Qualifier("UserServiceImpl")
+//@Qualifier("UserServiceImpl")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserService {
     final UserRepository userRepository;
     final UserValidation userValidation = new UserValidation();
 
-    @Autowired
-    public UserServiceImpl(@Qualifier("InMemoryUserRepository") UserRepository userRepository) {
+   // @Autowired
+    public UserServiceImpl(/*@Qualifier("InMemoryUserRepository")*/ UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

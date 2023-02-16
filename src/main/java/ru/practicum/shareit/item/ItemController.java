@@ -23,8 +23,8 @@ public class ItemController {
     final String pathIdItem = "/{itemId}";
     final String headerOwnerValue = "X-Sharer-User-Id";
 
-    @Autowired
-    public ItemController(@Qualifier("ItemServiceImpl") ItemServiceImpl itemServiceImpl) {
+
+    public ItemController( ItemServiceImpl itemServiceImpl) {
         this.itemServiceImpl = itemServiceImpl;
     }
 
