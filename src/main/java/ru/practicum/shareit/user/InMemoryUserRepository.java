@@ -4,7 +4,6 @@ package ru.practicum.shareit.user;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.IsAlreadyExistsException;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -20,7 +19,6 @@ import java.util.Map;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Component
-@Qualifier("InMemoryUserRepository")
 public class InMemoryUserRepository implements UserRepository {
     long nextId = 1;
     final Map<Long, User> users = new HashMap<>();
@@ -31,7 +29,7 @@ public class InMemoryUserRepository implements UserRepository {
             user.setId(nextId++);
             users.put(user.getId(), user);
             log.info(String.format("%s %d %s", "Пользователь с id =", user.getId(), "добавлен"));
-            return UserDtoMapper.mapRow(user);
+            return UserDtoMapper.userToUserDto(user);
         } else {
             log.info("Уже существует пользователь с таким email");
             throw new IsAlreadyExistsException("Уже существует пользователь с таким email");
@@ -48,14 +46,14 @@ public class InMemoryUserRepository implements UserRepository {
         User checkedUser = checkFieldsForUpdate(user);
         users.put(userId, checkedUser);
         log.info(String.format("%s %d %s", "Пользователь с id =", userId, "обновлен"));
-        return UserDtoMapper.mapRow(checkedUser);
+        return UserDtoMapper.userToUserDto(checkedUser);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         List<UserDto> usersDto = new ArrayList<>();
         for (User user : users.values()) {
-            usersDto.add(UserDtoMapper.mapRow(user));
+            usersDto.add(UserDtoMapper.userToUserDto(user));
         }
         log.info("Список пользователей успешно выведен");
         return usersDto;
@@ -68,7 +66,7 @@ public class InMemoryUserRepository implements UserRepository {
             throw new NotFoundException(String.format("%s %d %s", "Пользователь с id = ", userId, "не найден"));
         } else {
             log.info(String.format("%s %d %s", "Пользователь с id =", userId, "выведен"));
-            return UserDtoMapper.mapRow(users.get(userId));
+            return UserDtoMapper.userToUserDto(users.get(userId));
         }
     }
 

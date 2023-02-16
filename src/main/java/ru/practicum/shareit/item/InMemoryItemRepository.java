@@ -4,7 +4,6 @@ package ru.practicum.shareit.item;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.ForbiddenException;
 import ru.practicum.shareit.exception.InternalServerException;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-@Qualifier("InMemoryItemRepository")
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class InMemoryItemRepository implements ItemRepository {
     long nextId = 1;
@@ -32,7 +31,7 @@ public class InMemoryItemRepository implements ItemRepository {
         item.setId(nextId++);
         items.put(item.getId(), item);
         log.info(String.format("%s %d %s", "Товар с id =", item.getId(), "добавлен"));
-        return ItemDtoMapper.mapRow(item);
+        return ItemDtoMapper.itemToItemDTO(item);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class InMemoryItemRepository implements ItemRepository {
         checkedItem.setOwnerId(ownerId);
         checkedItem.setId(itemId);
         items.put(itemId, checkedItem);
-        return ItemDtoMapper.mapRow(checkedItem);
+        return ItemDtoMapper.itemToItemDTO(checkedItem);
     }
 
     @Override
@@ -49,7 +48,9 @@ public class InMemoryItemRepository implements ItemRepository {
         List<ItemDto> itemsOfOwner = new ArrayList<>();
         for (Item item : items.values()) {
             if (item.getOwnerId().equals(ownerId)) {
-                itemsOfOwner.add(ItemDtoMapper.mapRow(item));
+                itemsOfOwner.add(ItemDtoMapper.itemToItemDTO(item));
+            } else {
+                System.out.println("Владельца нет");
             }
         }
         return itemsOfOwner;
@@ -57,7 +58,8 @@ public class InMemoryItemRepository implements ItemRepository {
 
     @Override
     public ItemDto getItemById(long itemId) {
-        return ItemDtoMapper.mapRow(items.get(itemId));
+        if (items.get(itemId) == null) throw new NotFoundException("Item with this ID doesn't exist.");
+        return ItemDtoMapper.itemToItemDTO(items.get(itemId));
     }
 
     @Override
@@ -70,7 +72,7 @@ public class InMemoryItemRepository implements ItemRepository {
                 if ((item.getName().toLowerCase().contains(text.toLowerCase())
                         || item.getDescription().toLowerCase().contains(text.toLowerCase()))
                         && item.getAvailable()) {
-                    itemsForSearch.add(ItemDtoMapper.mapRow(item));
+                    itemsForSearch.add(ItemDtoMapper.itemToItemDTO(item));
                 }
             }
         }
@@ -103,3 +105,4 @@ public class InMemoryItemRepository implements ItemRepository {
         return item;
     }
 }
+

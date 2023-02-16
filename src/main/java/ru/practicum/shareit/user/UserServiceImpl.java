@@ -4,8 +4,6 @@ package ru.practicum.shareit.user;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -16,14 +14,12 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Qualifier("UserServiceImpl")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserService {
     final UserRepository userRepository;
     final UserValidation userValidation = new UserValidation();
 
-    @Autowired
-    public UserServiceImpl(@Qualifier("InMemoryUserRepository") UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

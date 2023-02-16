@@ -4,18 +4,12 @@ package ru.practicum.shareit.item;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.ItemServiceImpl;
 
 import java.util.List;
-
-/**
- * TODO Sprint add-controllers.
- */
 
 @RestController
 @Slf4j
@@ -27,8 +21,8 @@ public class ItemController {
     final String pathIdItem = "/{itemId}";
     final String headerOwnerValue = "X-Sharer-User-Id";
 
-    @Autowired
-    public ItemController(@Qualifier("ItemServiceImpl") ItemServiceImpl itemServiceImpl) {
+
+    public ItemController(ItemServiceImpl itemServiceImpl) {
         this.itemServiceImpl = itemServiceImpl;
     }
 
