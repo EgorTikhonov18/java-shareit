@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
         log.info(String.format("%s %d %s", "Пользователь с id =", userId, "удалён"));
     }
+
     private User checkFieldsForUpdate(User user, long userId) {
         if (userRepository.findById(userId).isEmpty()) {
             String message = String.format("%s %d %s", "Пользователь с id =", userId, "не найден");
@@ -83,6 +84,7 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
     private List<UserDto> usersToUsersDto(List<User> users) {
         List<UserDto> usersDto = new ArrayList<>();
         for (User user : users) {

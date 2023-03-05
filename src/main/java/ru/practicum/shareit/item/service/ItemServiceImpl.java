@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.LastAndNextBookingDtoMapper;
 import ru.practicum.shareit.booking.model.BookingStatus;
@@ -30,7 +29,6 @@ import java.util.List;
 
 @Slf4j
 @Service
-//@Qualifier("ItemServiceImpl")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemServiceImpl implements ItemService {
     final ItemRepository itemRepository;
