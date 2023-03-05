@@ -30,7 +30,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Qualifier("ItemServiceImpl")
+//@Qualifier("ItemServiceImpl")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemServiceImpl implements ItemService {
     final ItemRepository itemRepository;
