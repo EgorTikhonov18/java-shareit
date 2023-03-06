@@ -1,9 +1,10 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
 
 import ru.practicum.shareit.item.model.Item;
 
 public class ItemValidation {
+
     public boolean itemValidation(Item item, Long ownerId) {
         return nameValidation(item) && descriptionValidation(item) && availableValidation(item) && ownerIdValidation(ownerId);
     }
