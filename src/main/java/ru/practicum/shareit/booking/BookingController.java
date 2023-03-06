@@ -4,7 +4,6 @@ package ru.practicum.shareit.booking;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -22,7 +21,7 @@ public class BookingController {
     final String headerUserValue = "X-Sharer-User-Id";
     final String pathBookingId = "/{bookingId}";
 
-    @Autowired
+
     public BookingController(@Qualifier("BookingServiceImpl") BookingService bookingService) {
         this.bookingService = bookingService;
     }
@@ -30,7 +29,7 @@ public class BookingController {
     @PostMapping
     public BookingDto addNewBooking(@RequestHeader(value = headerUserValue, required = false) Long userId,
                                     @RequestBody RequestBodyBookingDto requestBooking) {
-        log.info("Запрос на новое бронирование");
+        log.info(String.format("%s %d","Запрос на новое бронирование от пользователя", userId));
         return bookingService.addNewBooking(requestBooking, userId);
     }
 

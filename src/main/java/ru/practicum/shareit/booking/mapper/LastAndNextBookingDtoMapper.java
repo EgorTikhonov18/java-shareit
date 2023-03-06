@@ -1,5 +1,6 @@
-package ru.practicum.shareit.booking.dto;
+package ru.practicum.shareit.booking.mapper;
 
+import ru.practicum.shareit.booking.dto.LastAndNextBookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 
 public class LastAndNextBookingDtoMapper {

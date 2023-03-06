@@ -3,7 +3,6 @@ package ru.practicum.shareit.item;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -23,7 +22,6 @@ public class ItemController {
     final String pathIdItem = "/{itemId}";
     final String headerUserValue = "X-Sharer-User-Id";
 
-    @Autowired
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }

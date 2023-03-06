@@ -3,9 +3,8 @@ package ru.practicum.shareit.item.service;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.dto.LastAndNextBookingDtoMapper;
+import ru.practicum.shareit.booking.mapper.LastAndNextBookingDtoMapper;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.exception.ForbiddenException;
@@ -13,9 +12,9 @@ import ru.practicum.shareit.exception.InternalServerException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.dto.CommentDto;
-import ru.practicum.shareit.item.dto.CommentDtoMapper;
+import ru.practicum.shareit.item.mapper.CommentDtoMapper;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.dto.ItemDtoMapper;
+import ru.practicum.shareit.item.mapper.ItemDtoMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.CommentRepository;
@@ -38,7 +37,6 @@ public class ItemServiceImpl implements ItemService {
     final ItemValidation itemValidation = new ItemValidation();
     final CommentValidation commentValidation = new CommentValidation();
 
-    @Autowired
     public ItemServiceImpl(ItemRepository itemRepository,
                            UserRepository userRepository,
                            BookingRepository bookingRepository,

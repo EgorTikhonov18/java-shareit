@@ -4,17 +4,17 @@ package ru.practicum.shareit.booking.service;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.BookingRepository;
+import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.BookingValidation;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.dto.BookingDtoMapper;
+import ru.practicum.shareit.booking.mapper.BookingDtoMapper;
 import ru.practicum.shareit.booking.dto.RequestBodyBookingDto;
-import ru.practicum.shareit.booking.dto.RequestBodyBookingDtoMapper;
+import ru.practicum.shareit.booking.mapper.RequestBodyBookingDtoMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
-import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.exception.IllegalArgumentException;
 import ru.practicum.shareit.exception.IsAlreadyDoneException;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -37,7 +37,6 @@ public class BookingServiceImpl implements BookingService {
     final UserRepository userRepository;
     final BookingValidation bookingValidation = new BookingValidation();
 
-    @Autowired
     public BookingServiceImpl(BookingRepository bookingRepository,
                               UserRepository userRepository,
                               ItemRepository itemRepository) {
