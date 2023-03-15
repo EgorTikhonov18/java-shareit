@@ -4,22 +4,29 @@ package ru.practicum.shareit.user;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.IsAlreadyExistsException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserDtoMapper;
+import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.UserRepository;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
+@Qualifier("UserServiceImpl")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserService {
     final UserRepository userRepository;
     final UserValidation userValidation = new UserValidation();
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -27,16 +34,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto addUser(User user) {
         if (!userValidation.userValidation(user)) {
-            String message = "Поля заполнены неверно";
+            String message = "The field's value is not valid";
             log.info(message);
             throw new ValidationException(message);
         }
-        return UserDtoMapper.userToUserDto(userRepository.save(user));
+        try {
+            return UserDtoMapper.userToUserDto(userRepository.save(user));
+        } catch (Exception e) {
+            throw new IsAlreadyExistsException("A user with the same email already exists");
+        }
+
     }
 
     @Override
     public UserDto updateUser(User user, long userId) {
         User checkedUser = checkFieldsForUpdate(user, userId);
+        if (!userValidation.userValidation(checkedUser)) {
+            String message = "The field's value is not valid";
+            log.info(message);
+            throw new ValidationException(message);
+        }
         checkedUser.setId(userId);
         return UserDtoMapper.userToUserDto(userRepository.save(checkedUser));
     }
@@ -48,32 +65,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(long userId) {
-        if (userRepository.findById(userId).isEmpty()) {
-            String message = String.format("%s %d %s", "Пользователь с id =", userId, "не найден");
-            log.info(message);
-            throw new NotFoundException(message);
-        }
-        return UserDtoMapper.userToUserDto(userRepository.findById(userId).get());
+        return UserDtoMapper.userToUserDto(getUser(userId));
     }
 
     @Override
     public void deleteUser(long userId) {
-        if (userRepository.findById(userId).isEmpty()) {
-            String message = String.format("%s %d %s", "Пользователь с id =", userId, "не найден");
-            log.info(message);
-            throw new NotFoundException(message);
-        }
+        getUser(userId);
         userRepository.deleteById(userId);
-        log.info(String.format("%s %d %s", "Пользователь с id =", userId, "удалён"));
+        log.info(String.format("%s %d %s", "The user with id =", userId, "is removed"));
     }
 
     private User checkFieldsForUpdate(User user, long userId) {
-        if (userRepository.findById(userId).isEmpty()) {
-            String message = String.format("%s %d %s", "Пользователь с id =", userId, "не найден");
-            log.info(message);
-            throw new NotFoundException(message);
-        }
-        User oldUser = userRepository.findById(userId).get();
+        User oldUser = getUser(userId);
         if (user.getName() == null) {
             user.setName(oldUser.getName());
         }
@@ -89,5 +92,14 @@ public class UserServiceImpl implements UserService {
             usersDto.add(UserDtoMapper.userToUserDto(user));
         }
         return usersDto;
+    }
+
+    private User getUser(long userId) {
+        if (userRepository.findById(userId).isEmpty()) {
+            String message = String.format("%s %d %s", "The user with id =", userId, "not found");
+            log.info(message);
+            throw new NotFoundException(message);
+        }
+        return userRepository.findById(userId).get();
     }
 }
