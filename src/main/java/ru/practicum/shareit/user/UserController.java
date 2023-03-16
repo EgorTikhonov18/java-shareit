@@ -21,7 +21,7 @@ public class UserController {
     final String pathUserId = "/{userId}";
 
 
-    public UserController( UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

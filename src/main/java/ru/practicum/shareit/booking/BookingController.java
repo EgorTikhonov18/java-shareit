@@ -19,14 +19,14 @@ public class BookingController {
     final String headerUserValue = "X-Sharer-User-Id";
     final String pathBookingId = "/{bookingId}";
 
-    public BookingController( BookingService bookingService) {
+    public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
     }
 
     @PostMapping
     public BookingDto addNewBooking(@RequestHeader(value = headerUserValue, required = false) Long userId,
                                     @RequestBody RequestBodyBookingDto requestBooking) {
-        log.info(String.format("%s %d","Запрос на новое бронирование от пользователя", userId));
+        log.info(String.format("%s %d", "Запрос на новое бронирование от пользователя", userId));
         return bookingService.addNewBooking(requestBooking, userId);
     }
 

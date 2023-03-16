@@ -23,7 +23,7 @@ public class ItemController {
     final String pathIdItem = "/{itemId}";
     final String headerUserValue = "X-Sharer-User-Id";
 
-    public ItemController( ItemService itemService) {
+    public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
