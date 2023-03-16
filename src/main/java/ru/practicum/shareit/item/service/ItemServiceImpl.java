@@ -3,7 +3,6 @@ package ru.practicum.shareit.item.service;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,6 @@ public class ItemServiceImpl implements ItemService {
     final ItemValidation itemValidation = new ItemValidation();
     final CommentValidation commentValidation = new CommentValidation();
 
-    @Autowired
     public ItemServiceImpl(ItemRepository itemRepository,
                            UserRepository userRepository,
                            BookingRepository bookingRepository,
@@ -58,7 +56,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto addNewItem(RequestBodyItemDto requestBodyItemDto, Long userId) {
         if (!itemValidation.itemValidation(requestBodyItemDto, userId)) {
-            String message = "The fields are not valid or userId is missing";
+            String message = "Поля заполнены неверно или не указан id пользователя";
             log.info(message);
             throw new ValidationException(message);
         }
@@ -77,25 +75,25 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public CommentDto addNewComment(Comment comment, Long userId, long itemId) {
         if (!commentValidation.commentValidation(comment)) {
-            String message = "The comment's text is missing";
+            String message = "Не указан текст отзыва";
             log.info(message);
             throw new ValidationException(message);
         }
         LocalDateTime currentDate = LocalDateTime.now();
         if (itemRepository.findById(itemId).isEmpty()) {
-            String message = String.format("%s %d %s", "The item with id =", itemId, "not found");
+            String message = String.format("%s %d %s", "Вещь с id =", itemId, "не найдена");
             log.info(message);
             throw new NotFoundException(message);
         }
         Item item = itemRepository.findById(itemId).get();
         if (userRepository.findById(userId).isEmpty()) {
-            String message = String.format("%s %d %s", "The user with id =", userId, "not found");
+            String message = String.format("%s %d %s", "Пользователь с id =", userId, "не найден");
             log.info(message);
             throw new NotFoundException(message);
         }
         User user = userRepository.findById(userId).get();
         if (bookingRepository.findPastBookingsForUserAndItem(item, user, BookingStatus.APPROVED, currentDate).isEmpty()) {
-            String message = String.format("%s %d %s %d", "The user with id =", userId, "don't have a completed booking with item with id=", itemId);
+            String message = String.format("%s %d %s %d", "Пользователь с id =", userId, "не бронировал вещь с id=", itemId);
             log.info(message);
             throw new ValidationException(message);
         }
@@ -129,7 +127,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto getItemById(long itemId, Long userId) {
         if (itemRepository.findById(itemId).isEmpty()) {
-            String message = String.format("%s %d %s", "The item with id =", itemId, "not found");
+            String message = String.format("%s %d %s", "Вещь с id =", itemId, "не найдена");
             log.info(message);
             throw new NotFoundException(message);
         }
@@ -196,18 +194,18 @@ public class ItemServiceImpl implements ItemService {
 
     private Item checkFieldsForUpdate(Item item, long itemId, Long userId) {
         if (userId == null) {
-            String message = "The userId is missing";
+            String message = "Не указан id владельца";
             log.info(message);
             throw new InternalServerException(message);
         }
         if (itemRepository.findById(itemId).isEmpty()) {
-            String message = String.format("%s %d %s", "The item with id =", itemId, "not found");
+            String message = String.format("%s %d %s", "Товар с id =", itemId, "не найден");
             log.info(message);
             throw new NotFoundException(message);
         }
         Item itemFromDb = itemRepository.findById(itemId).get();
         if (!userId.equals(itemFromDb.getOwner().getId())) {
-            String message = "Only the owner can update an item";
+            String message = "Попытка редактирования товара другого пользователя";
             log.info(message);
             throw new ForbiddenException(message);
         }
@@ -225,7 +223,7 @@ public class ItemServiceImpl implements ItemService {
 
     private User getUserById(long userId) {
         if (userRepository.findById(userId).isEmpty()) {
-            String message = String.format("%s %d %s", "The user with id =", userId, "not found");
+            String message = String.format("%s %d %s", "Пользователь с id =", userId, "не найден");
             log.info(message);
             throw new NotFoundException(message);
         }
@@ -241,7 +239,7 @@ public class ItemServiceImpl implements ItemService {
 
     private void checkFormAndSize(Integer from, Integer size) {
         if (from < 0 || size < 1) {
-            String message = "Page number or count of elements are not valid";
+            String message = "Недопустимый номер страницы или количество элементов";
             log.info(message);
             throw new ValidationException(message);
         }
