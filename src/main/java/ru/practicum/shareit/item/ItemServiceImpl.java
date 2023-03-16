@@ -4,8 +4,6 @@ package ru.practicum.shareit.item;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
@@ -18,15 +16,15 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Qualifier("ItemServiceImpl")
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemServiceImpl implements ItemService {
     final ItemRepository itemRepository;
     final UserController userController;
     final ItemValidation itemValidation = new ItemValidation();
 
-    @Autowired
-    public ItemServiceImpl(@Qualifier("InMemoryItemRepository") ItemRepository itemRepository, UserController userController) {
+
+    public ItemServiceImpl(ItemRepository itemRepository, UserController userController) {
         this.itemRepository = itemRepository;
         this.userController = userController;
     }
