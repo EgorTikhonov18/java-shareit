@@ -29,6 +29,7 @@ public class ItemController {
     public ItemController(@Qualifier("ItemServiceImpl") ItemService itemService) {
         this.itemService = itemService;
     }
+
     @PostMapping
     public ItemDto addNewItem(@RequestHeader(value = headerUserValue, required = false) Long userId, @RequestBody RequestBodyItemDto requestBodyItemDto) {
         log.info("Запрос на добавление нового товара");

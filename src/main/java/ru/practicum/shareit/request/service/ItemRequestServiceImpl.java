@@ -37,17 +37,17 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     final ItemRequestValidation itemRequestValidation;
 
-@Autowired
+    @Autowired
     public ItemRequestServiceImpl(ItemRequestRepository itemRequestRepository,
                                   ItemRepository itemRepository,
                                   UserRepository userRepository,
-                                   ItemRequestValidation itemRequestValidation) {
+                                  ItemRequestValidation itemRequestValidation) {
         this.itemRequestRepository = itemRequestRepository;
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
 
-    this.itemRequestValidation = itemRequestValidation;
-}
+        this.itemRequestValidation = itemRequestValidation;
+    }
 
     @Override
     public ItemRequestDto addNewItemRequest(Long userId, RequestBodyItemRequestDto requestBodyItemRequestDto) {
@@ -94,7 +94,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
 
-
     private User getUserById(Long userId) {
         if (userRepository.findById(userId).isEmpty()) {
             String message = String.format("%s %d %s", "Пользователь с id =", userId, "не найден");
@@ -111,7 +110,8 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         }
         return itemsDto;
     }
-    public  ItemRequestDto itemRequestToItemRequestDto(ItemRequest itemRequest) {
+
+    public ItemRequestDto itemRequestToItemRequestDto(ItemRequest itemRequest) {
         ItemRequestDto itemRequestDto = ItemRequestDtoMapper.mapRow(itemRequest);
         List<Item> items = new ArrayList<>();
         if (!itemRepository.findItemsByRequests(itemRequest.getId()).isEmpty()) {
@@ -121,7 +121,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         return itemRequestDto;
     }
 
-    public  List<ItemRequestDto> itemRequestsToItemRequestsDto(List<ItemRequest> itemRequests) {
+    public List<ItemRequestDto> itemRequestsToItemRequestsDto(List<ItemRequest> itemRequests) {
         List<ItemRequestDto> itemRequestsDto = new ArrayList<>();
         for (ItemRequest itemRequest : itemRequests) {
             itemRequestsDto.add(itemRequestToItemRequestDto(itemRequest));
