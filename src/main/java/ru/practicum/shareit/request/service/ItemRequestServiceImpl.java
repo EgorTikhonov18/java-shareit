@@ -1,9 +1,9 @@
 package ru.practicum.shareit.request.service;
 
-
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,8 @@ import ru.practicum.shareit.item.mapper.ItemDtoMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
-import ru.practicum.shareit.request.mapper.ItemRequestDtoMapper;
 import ru.practicum.shareit.request.dto.RequestBodyItemRequestDto;
+import ru.practicum.shareit.request.mapper.ItemRequestDtoMapper;
 import ru.practicum.shareit.request.mapper.RequestBodyItemRequestDtoMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.repository.ItemRequestRepository;
@@ -34,24 +34,25 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     final ItemRequestRepository itemRequestRepository;
     final ItemRepository itemRepository;
     final UserRepository userRepository;
-    final ItemRequestValidation itemRequestValidation = new ItemRequestValidation();
 
+    final ItemRequestValidation itemRequestValidation;
+
+@Autowired
     public ItemRequestServiceImpl(ItemRequestRepository itemRequestRepository,
                                   ItemRepository itemRepository,
-                                  UserRepository userRepository) {
+                                  UserRepository userRepository,
+                                   ItemRequestValidation itemRequestValidation) {
         this.itemRequestRepository = itemRequestRepository;
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
-    }
+
+    this.itemRequestValidation = itemRequestValidation;
+}
 
     @Override
     public ItemRequestDto addNewItemRequest(Long userId, RequestBodyItemRequestDto requestBodyItemRequestDto) {
         ItemRequest itemRequest = createItemRequest(requestBodyItemRequestDto, userId);
-        if (!itemRequestValidation.itemRequestValidation(requestBodyItemRequestDto)) {
-            String message = "Описание запроса вещи отсутствует";
-            log.info(message);
-            throw new ValidationException(message);
-        }
+        itemRequestValidation.itemRequestValidation(requestBodyItemRequestDto);
         return itemRequestToItemRequestDto(itemRequestRepository.save(itemRequest));
     }
 
@@ -65,7 +66,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     public List<ItemRequestDto> getAllItemRequests(Integer from, Integer size, Long userId) {
         User user = getUserById(userId);
         if (from < 0 || size < 1) {
-            String message = "Недопустимый номер страницы или количество элементов";
+            String message = "Номер страницы или количество элементов недопустимо";
             log.info(message);
             throw new ValidationException(message);
         }
@@ -76,7 +77,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     public ItemRequestDto getRequestById(Long userId, long requestId) {
         getUserById(userId);
         if (itemRequestRepository.findById(requestId).isEmpty()) {
-            String message = String.format("%s %d %s", "Запрос с id = ", userId, "не найден");
+            String message = String.format("%s %d %s", "Заявка с id =", userId, "не найдена");
             log.info(message);
             throw new NotFoundException(message);
         }
@@ -92,27 +93,11 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         return itemRequest;
     }
 
-    private ItemRequestDto itemRequestToItemRequestDto(ItemRequest itemRequest) {
-        ItemRequestDto itemRequestDto = ItemRequestDtoMapper.mapRow(itemRequest);
-        List<Item> items = new ArrayList<>();
-        if (!itemRepository.findItemsByRequests(itemRequest.getId()).isEmpty()) {
-            items = itemRepository.findItemsByRequests(itemRequest.getId());
-        }
-        itemRequestDto.setItems(itemsToItemsDto(items));
-        return itemRequestDto;
-    }
 
-    private List<ItemRequestDto> itemRequestsToItemRequestsDto(List<ItemRequest> itemRequests) {
-        List<ItemRequestDto> itemRequestsDto = new ArrayList<>();
-        for (ItemRequest itemRequest : itemRequests) {
-            itemRequestsDto.add(itemRequestToItemRequestDto(itemRequest));
-        }
-        return itemRequestsDto;
-    }
 
     private User getUserById(Long userId) {
         if (userRepository.findById(userId).isEmpty()) {
-            String message = String.format("%s %d %s", "Пользователь с id = ", userId, "не найден");
+            String message = String.format("%s %d %s", "Пользователь с id =", userId, "не найден");
             log.info(message);
             throw new NotFoundException(message);
         }
@@ -126,4 +111,22 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         }
         return itemsDto;
     }
+    public  ItemRequestDto itemRequestToItemRequestDto(ItemRequest itemRequest) {
+        ItemRequestDto itemRequestDto = ItemRequestDtoMapper.mapRow(itemRequest);
+        List<Item> items = new ArrayList<>();
+        if (!itemRepository.findItemsByRequests(itemRequest.getId()).isEmpty()) {
+            items = itemRepository.findItemsByRequests(itemRequest.getId());
+        }
+        itemRequestDto.setItems(itemsToItemsDto(items));
+        return itemRequestDto;
+    }
+
+    public  List<ItemRequestDto> itemRequestsToItemRequestsDto(List<ItemRequest> itemRequests) {
+        List<ItemRequestDto> itemRequestsDto = new ArrayList<>();
+        for (ItemRequest itemRequest : itemRequests) {
+            itemRequestsDto.add(itemRequestToItemRequestDto(itemRequest));
+        }
+        return itemRequestsDto;
+    }
+
 }

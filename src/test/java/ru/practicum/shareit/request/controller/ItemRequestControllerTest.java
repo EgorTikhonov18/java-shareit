@@ -1,6 +1,5 @@
 package ru.practicum.shareit.request.controller;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.SneakyThrows;
@@ -19,6 +18,7 @@ import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.service.ItemRequestService;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class ItemRequestControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andReturn()
                 .getResponse()
-                .getContentAsString();
+                .getContentAsString(StandardCharsets.UTF_8);
         verify(itemRequestService).addNewItemRequest(anyLong(), any());
         assertEquals(objectMapper.writeValueAsString(itemRequestDtoCorrect), result);
     }
@@ -77,7 +77,7 @@ public class ItemRequestControllerTest {
     @SneakyThrows
     @Test
     void addItemRequestTest_whenItemRequestEmptyDesc_thenThrow() {
-        when(itemRequestService.addNewItemRequest(anyLong(), any())).thenThrow(new ValidationException("Îïèñàíèå íå ìîæåò áûòü ïóñòûì"));
+        when(itemRequestService.addNewItemRequest(anyLong(), any())).thenThrow(new ValidationException("Описание должно быть указано"));
 
         String result = mockMvc.perform(post(pathRequests)
                         .content(objectMapper.writeValueAsString(itemRequestDtoEmptyDesc))
@@ -86,10 +86,10 @@ public class ItemRequestControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andReturn()
                 .getResponse()
-                .getContentAsString();
+                .getContentAsString(StandardCharsets.UTF_8);
 
         verify(itemRequestService).addNewItemRequest(anyLong(), any());
-        assertEquals("{\"error\":\"Îïèñàíèå íå ìîæåò áûòü ïóñòûì\"}", result);
+        assertEquals("{\"error\":\"Описание должно быть указано\"}", result);
     }
 
     @SneakyThrows

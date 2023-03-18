@@ -1,6 +1,5 @@
 package ru.practicum.shareit.item.controller;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.SneakyThrows;
@@ -20,6 +19,7 @@ import ru.practicum.shareit.item.CommentDto;
 import ru.practicum.shareit.item.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -72,7 +72,7 @@ public class ItemControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andReturn()
                 .getResponse()
-                .getContentAsString();
+                .getContentAsString(StandardCharsets.UTF_8);
         verify(itemService).addNewItem(any(), anyLong());
         assertEquals(objectMapper.writeValueAsString(itemDtoCorrect), result);
     }
@@ -80,7 +80,7 @@ public class ItemControllerTest {
     @SneakyThrows
     @Test
     void addItemTest_whenBookingNameEmpty_thenThrow() {
-        when(itemService.addNewItem(any(), anyLong())).thenThrow(new ValidationException("The fields are not valid or userId is missing"));
+        when(itemService.addNewItem(any(), anyLong())).thenThrow(new ValidationException("Название не может быть пустым"));
 
         String result = mockMvc.perform(post(pathItems)
                         .content(objectMapper.writeValueAsString(itemDtoEmptyName))
@@ -89,10 +89,10 @@ public class ItemControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andReturn()
                 .getResponse()
-                .getContentAsString();
+                .getContentAsString(StandardCharsets.UTF_8);
 
         verify(itemService).addNewItem(any(), anyLong());
-        assertEquals("{\"error\":\"The fields are not valid or userId is missing\"}", result);
+        assertEquals("{\"error\":\"Название не может быть пустым\"}", result);
     }
 
     @SneakyThrows
@@ -107,7 +107,7 @@ public class ItemControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andReturn()
                 .getResponse()
-                .getContentAsString();
+                .getContentAsString(StandardCharsets.UTF_8);
         verify(itemService).addNewComment(any(), anyLong(), anyLong());
         assertEquals(objectMapper.writeValueAsString(commentDtoCorrect), result);
     }
@@ -115,7 +115,7 @@ public class ItemControllerTest {
     @SneakyThrows
     @Test
     void addCommentTest_whenCommentTextEmpty_thenThrow() {
-        when(itemService.addNewComment(any(), anyLong(), anyLong())).thenThrow(new ValidationException("The comment's text is missing"));
+        when(itemService.addNewComment(any(), anyLong(), anyLong())).thenThrow(new ValidationException("Описание не может быть пустым"));
 
         String result = mockMvc.perform(post(pathItems + pathItemId + pathComment, 1)
                         .content(objectMapper.writeValueAsString(commentDtoEmptyText))
@@ -124,10 +124,10 @@ public class ItemControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andReturn()
                 .getResponse()
-                .getContentAsString();
+                .getContentAsString(StandardCharsets.UTF_8);
 
         verify(itemService).addNewComment(any(), anyLong(), anyLong());
-        assertEquals("{\"error\":\"The comment's text is missing\"}", result);
+        assertEquals("{\"error\":\"Описание не может быть пустым\"}", result);
     }
 
 
@@ -144,7 +144,7 @@ public class ItemControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andReturn()
                 .getResponse()
-                .getContentAsString();
+                .getContentAsString(StandardCharsets.UTF_8);
         verify(itemService).updateItem(anyLong(), any(), anyLong());
         assertEquals(objectMapper.writeValueAsString(itemDtoCorrect), result);
     }

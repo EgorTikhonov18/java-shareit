@@ -7,8 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import ru.practicum.shareit.TestHelper;
 import ru.practicum.shareit.item.ItemRepository;
-import ru.practicum.shareit.item.model.Item;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,11 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ItemRepositoryTest {
     @Autowired
     ItemRepository itemRepository;
+     TestHelper testHelper = new TestHelper();
 
     @BeforeEach
     void beforeEach() {
-        itemRepository.save(Item.builder().name("itemName1").description("itemDesc1").available(true).build());
-        itemRepository.save(Item.builder().name("itemName2").description("itemDesc2").available(true).build());
+        itemRepository.save(testHelper.getItem());
     }
 
     @AfterEach
@@ -31,6 +32,6 @@ public class ItemRepositoryTest {
 
     @Test
     void saveItemsTest() {
-        assertEquals(itemRepository.findAll().size(), 2);
+        assertEquals(itemRepository.findAll().size(), 1);
     }
 }

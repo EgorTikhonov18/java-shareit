@@ -4,6 +4,8 @@ package ru.practicum.shareit.item.controller;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.CommentDto;
 import ru.practicum.shareit.item.ItemDto;
@@ -23,10 +25,10 @@ public class ItemController {
     final String pathIdItem = "/{itemId}";
     final String headerUserValue = "X-Sharer-User-Id";
 
-    public ItemController(ItemService itemService) {
+    @Autowired
+    public ItemController(@Qualifier("ItemServiceImpl") ItemService itemService) {
         this.itemService = itemService;
     }
-
     @PostMapping
     public ItemDto addNewItem(@RequestHeader(value = headerUserValue, required = false) Long userId, @RequestBody RequestBodyItemDto requestBodyItemDto) {
         log.info("Запрос на добавление нового товара");

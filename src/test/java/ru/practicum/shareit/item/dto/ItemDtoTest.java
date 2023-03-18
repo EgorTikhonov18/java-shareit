@@ -1,6 +1,5 @@
 package ru.practicum.shareit.item.dto;
 
-
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
+import ru.practicum.shareit.TestHelper;
 import ru.practicum.shareit.item.ItemDto;
+import ru.practicum.shareit.item.mapper.ItemDtoMapper;
 
 import java.io.IOException;
 
@@ -19,12 +20,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ItemDtoTest {
     @Autowired
     JacksonTester<ItemDto> jacksonTester;
+    final TestHelper testHelper = new TestHelper();
 
     @Test
     void userDtoJsonTest() throws IOException {
-        long itemId = 1L;
-        long requestId = 2L;
-        ItemDto itemDto = ItemDto.builder().id(itemId).name("itemName1").description("ItemDesc1").available(true).requestId(requestId).build();
+        ItemDto itemDto = ItemDtoMapper.itemToItemDTO(testHelper.getItem());
+        itemDto.setRequestId(1L);
 
         JsonContent<ItemDto> result = jacksonTester.write(itemDto);
 
