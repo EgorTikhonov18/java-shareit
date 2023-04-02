@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking;
 
-
 import ru.practicum.shareit.booking.dto.RequestBodyBookingDto;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
@@ -24,7 +23,10 @@ public class BookingValidation {
     }
 
     private void startOrEndDateValidation(RequestBodyBookingDto requestBooking) {
-        if (requestBooking.getStart().isAfter(requestBooking.getEnd())) {
+        if (requestBooking.getStart() == null || requestBooking.getEnd() == null) {
+            throw new ValidationException("Дата начала бронирования должна быть равна нулю");
+        }
+        if (requestBooking.getStart().isAfter(requestBooking.getEnd()) || requestBooking.getStart().equals(requestBooking.getEnd())) {
             throw new ValidationException("Дата начала бронирования должна быть меньше даты окончания");
         }
         if (requestBooking.getStart().isBefore(currentDate)) {

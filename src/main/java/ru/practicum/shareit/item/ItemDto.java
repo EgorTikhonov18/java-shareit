@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.dto;
+package ru.practicum.shareit.item;
 
 
 import lombok.AccessLevel;
@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import ru.practicum.shareit.booking.dto.LastAndNextBookingDto;
-import ru.practicum.shareit.user.User;
 
 import java.util.List;
 
@@ -21,5 +20,5 @@ public class ItemDto {
     LastAndNextBookingDto lastBooking;
     LastAndNextBookingDto nextBooking;
     List<CommentDto> comments;
-    User owner;
+    long requestId;
 }
