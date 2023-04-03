@@ -1,8 +1,9 @@
-package ru.practicum.shareit.dto;
+package ru.practicum.shareit.booking.dto;
 
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;

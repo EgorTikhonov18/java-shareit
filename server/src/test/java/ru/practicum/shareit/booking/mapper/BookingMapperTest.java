@@ -1,4 +1,4 @@
-package ru.practicum.shareit.mapper;
+package ru.practicum.shareit.booking.mapper;
 
 
 import org.junit.jupiter.api.Assertions;

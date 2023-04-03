@@ -1,4 +1,4 @@
-package ru.practicum.shareit.repository;
+package ru.practicum.shareit.booking.repository;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

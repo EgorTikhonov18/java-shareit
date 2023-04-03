@@ -1,4 +1,4 @@
-package ru.practicum.shareit.service;
+package ru.practicum.shareit.booking.service;
 
 
 import lombok.AccessLevel;
