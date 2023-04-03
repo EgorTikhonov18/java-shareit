@@ -14,7 +14,6 @@ import ru.practicum.shareit.item.mapper.ItemDtoMapper;
 
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
 @FieldDefaults(level = AccessLevel.PRIVATE)

@@ -3,7 +3,6 @@ package ru.practicum.shareit.booking.mapper;
 
 import org.junit.jupiter.api.Test;
 import ru.practicum.shareit.booking.dto.LastAndNextBookingDto;
-import ru.practicum.shareit.booking.mapper.LastAndNextBookingDtoMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.user.User;

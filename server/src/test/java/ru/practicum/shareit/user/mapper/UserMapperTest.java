@@ -3,7 +3,6 @@ package ru.practicum.shareit.user.mapper;
 
 import org.junit.jupiter.api.Test;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.user.mapper.UserDtoMapper;
 import ru.practicum.shareit.user.User;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

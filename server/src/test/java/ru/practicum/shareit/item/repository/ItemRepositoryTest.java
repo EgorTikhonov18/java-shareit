@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ItemRepositoryTest {
     @Autowired
     ItemRepository itemRepository;
-     TestHelper testHelper = new TestHelper();
+    final TestHelper testHelper = new TestHelper();
 
     @BeforeEach
     void beforeEach() {
