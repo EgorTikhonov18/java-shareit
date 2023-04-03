@@ -1,6 +1,7 @@
 package ru.practicum.shareit.request.mapper;
 
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.practicum.shareit.TestHelper;
 import ru.practicum.shareit.request.dto.ItemRequestDto;

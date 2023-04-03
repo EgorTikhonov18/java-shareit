@@ -1,6 +1,7 @@
 package ru.practicum.shareit.mapper;
 
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.mapper.BookingDtoMapper;
